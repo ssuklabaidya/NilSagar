@@ -1,0 +1,9 @@
+.venv/
+datasets/
+runs/
+runs_classify/
+runs_cv/
+__pycache__/
+*.pt
+*.zip
+*.cache

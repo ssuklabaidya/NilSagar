@@ -1,0 +1,10 @@
+Fold  Train Acc   Test Acc    Test MCC  
+0     1.000       0.963       0.946     
+1     0.989       0.931       0.901     
+2     0.999       0.973       0.962     
+3     0.999       0.963       0.947     
+4     0.995       0.989       0.985     
+
+Mean train accuracy: 0.996
+Mean test accuracy:  0.964 ± 0.019
+Mean test MCC:       0.948 ± 0.027
