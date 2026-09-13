@@ -7,3 +7,21 @@ __pycache__/
 *.pt
 *.zip
 *.cache
+
+# Python
+__pycache__/
+*.py[cod]
+backend/.venv/
+backend/.env
+
+# Model checkpoint (supplied locally, not committed)
+backend/models/best.pt
+
+# Generated annotated results
+backend/outputs/*
+!backend/outputs/.gitkeep
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
