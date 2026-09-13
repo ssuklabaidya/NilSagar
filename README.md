@@ -13,46 +13,62 @@ NilSagar reads side-scan sonar (SSS) imagery and flags man-made marine debris �
 India does not currently have a public, labeled side-scan sonar debris dataset. Every dataset used here (KLSG, Marine-PULSE, AI4Shipwrecks, Seafloor Sediments) was collected and pre-processed by international research groups — meaning the raw acoustic pings were already corrected, cropped, and published as clean images before we ever received them. Our pipeline is designed end-to-end for raw AUV data, but only the stages that operate on the pixel data we actually have were run in this build. That distinction is documented explicitly per stage below, not glossed over.
 
 ## Pipeline
-Raw SSS acoustic pings (AUV / towfish)
-│
-▼
+```mermaid
+flowchart TD
+    A["Raw SSS Acoustic Pings<br/><i>(AUV / Towfish)</i>"] --> B
 
-PREPROCESSING
-• Slant-range correction + water-column removal [designed — needs raw pings]
-• Time-Varying Gain (TVG) normalization [designed — needs raw pings]
-• Speckle noise reduction (Non-Local Means) [implemented]
-• Ping-to-mosaic stitching (AUV nav: INS/USBL) [designed — needs raw pings]
-• CLAHE contrast enhancement [implemented]
-│
-▼
-TILING + AUGMENTATION [implemented]
-• 512×512 patch tiling
-• Rotation, flip, contrast jitter augmentation
-│
-▼
-3A. SUPERVISED BRANCH (implemented) 3B. ANOMALY BRANCH (designed)
-YOLOv8 classifier, 5 classes Convolutional autoencoder,
-trained on KLSG + Marine-PULSE trained ONLY on normal seabed
-→ 96.4% test accuracy, MCC 0.948 (Seafloor Sediments dataset) →
-(5-fold cross-validation) flags high reconstruction-error
-patches as anomalous/novel
-│ │
-└──────────────────┬─────────────────────┘
-▼
-FUSION & SCORING (designed)
-• High detector confidence → labeled debris class
-• High anomaly score, low detector confidence → "unidentified anomaly,
-flag for expert review"
-• Closes the gap between known debris classes and anything genuinely novel
-│
-▼
-GEOREFERENCING + POST-PROCESSING (designed — see note below)
-│
-▼
-DASHBOARD (implemented — prototype)
-│
-▼
-HUMAN-IN-THE-LOOP FEEDBACK / ACTIVE LEARNING (designed)
+    subgraph PREPROCESSING["<b>PREPROCESSING</b>"]
+        direction TB
+        B1["Slant-range correction + water-column removal<br/><i>[designed — needs raw pings]</i>"]
+        B2["Time-Varying Gain (TVG) normalization<br/><i>[designed — needs raw pings]</i>"]
+        B3["Speckle noise reduction (Non-Local Means)<br/><i>[implemented]</i>"]
+        B4["Ping-to-mosaic stitching (AUV nav: INS/USBL)<br/><i>[designed — needs raw pings]</i>"]
+        B5["CLAHE contrast enhancement<br/><i>[implemented]</i>"]
+        B1 --> B2 --> B3 --> B4 --> B5
+    end
+
+    B5 --> C
+
+    subgraph TILING["<b>TILING + AUGMENTATION</b> <i>[implemented]</i>"]
+        C1["512×512 patch tiling"]
+        C2["Rotation, flip, contrast jitter augmentation"]
+        C1 --> C2
+    end
+
+    C2 --> D1
+    C2 --> D2
+
+    subgraph D1["<b>3A. SUPERVISED BRANCH</b> <i>[implemented]</i>"]
+        D1a["YOLOv8 classifier, 5 classes<br/>trained on KLSG + Marine-PULSE<br/><b>→ 96.4% test accuracy, MCC 0.948</b><br/><i>(5-fold cross-validation)</i>"]
+    end
+
+    subgraph D2["<b>3B. ANOMALY BRANCH</b> <i>[designed]</i>"]
+        D2a["Convolutional autoencoder<br/>trained ONLY on normal seabed<br/><i>(Seafloor Sediments dataset)</i><br/><b>→ Flags high reconstruction-error patches</b>"]
+    end
+
+    D1a --> E
+    D2a --> E
+
+    subgraph FUSION["<b>FUSION & SCORING</b> <i>[designed]</i>"]
+        E1["• High detector confidence → labeled debris class"]
+        E2["• High anomaly score, low confidence → 'unidentified anomaly, flag for expert review'"]
+        E3["• Closes the gap between known debris classes and genuinely novel targets"]
+    end
+
+    FUSION --> F["<b>GEOREFERENCING + POST-PROCESSING</b><br/><i>[designed — see note below]</i>"]
+    F --> G["<b>DASHBOARD</b><br/><i>[implemented — prototype]</i>"]
+    G --> H["<b>HUMAN-IN-THE-LOOP FEEDBACK / ACTIVE LEARNING</b><br/><i>[designed]</i>"]
+
+    %% Styling
+    style A fill:#1f2937,stroke:#374151,color:#fff
+    style PREPROCESSING fill:#111827,stroke:#3b82f6,color:#fff
+    style TILING fill:#111827,stroke:#10b981,color:#fff
+    style D1 fill:#064e3b,stroke:#10b981,color:#fff
+    style D2 fill:#701a75,stroke:#f43f5e,color:#fff
+    style FUSION fill:#1e1b4b,stroke:#6366f1,color:#fff
+    style F fill:#1f2937,stroke:#374151,color:#fff
+    style G fill:#1f2937,stroke:#10b981,color:#fff
+    style H fill:#1f2937,stroke:#374151,color:#fffd)
 
 ## Dataset
 
