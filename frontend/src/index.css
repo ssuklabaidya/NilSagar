@@ -1,0 +1,597 @@
+/* ==========================================================================
+   Design tokens
+   ========================================================================== */
+:root {
+  --bg:            #0e1117;
+  --panel:         #161b22;
+  --panel-inset:   #0d1117;
+  --border:        #2a3140;
+  --border-subtle: #1e2530;
+
+  --text:          #c9d1d9;
+  --text-strong:   #e6edf3;
+  --muted:         #6e7a8a;
+
+  --accent:        #388bfd;
+  --accent-dim:    #1c4a90;
+  --accent-hover:  #58a6ff;
+
+  --error-bg:      #230c0c;
+  --error-border:  #5c1a1a;
+  --error-text:    #f47067;
+
+  --warn-bg:       #1c1600;
+  --warn-border:   #4a3800;
+  --warn-text:     #d4a017;
+
+  --success-text:  #3fb950;
+
+  /* Class chip palette — muted, not neon */
+  --chip-pipeline: #1c3a2a;
+  --chip-pipeline-fg: #4cae7a;
+  --chip-shipwreck: #2a1c10;
+  --chip-shipwreck-fg: #c07a40;
+  --chip-ghost:    #1a1c30;
+  --chip-ghost-fg: #7a88d4;
+  --chip-mine:     #2a1a1a;
+  --chip-mine-fg:  #c05050;
+  --chip-seabed:   #182830;
+  --chip-seabed-fg: #56a5c2;
+  --chip-platform: #2a2515;
+  --chip-platform-fg: #c4a747;
+  --chip-airplane: #201e2e;
+  --chip-airplane-fg: #9d8fd4;
+  --chip-mound:    #2a201c;
+  --chip-mound-fg: #b5896b;
+  --chip-default:  #1e222a;
+  --chip-default-fg: #8899aa;
+
+  --conf-bar-bg:   #1e2530;
+  --conf-bar-fill: #388bfd;
+
+  --radius:        3px;
+  --radius-sm:     2px;
+}
+
+/* ==========================================================================
+   Reset / base
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   App shell
+   ========================================================================== */
+.app {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+.app-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 14px;
+  margin-bottom: 24px;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-strong);
+  letter-spacing: 0.01em;
+}
+
+.app-header .tagline {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   Status / feedback banners
+   ========================================================================== */
+.status-bar {
+  margin: 14px 0;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-bar.busy {
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-border);
+  color: var(--warn-text);
+}
+
+.status-bar.error {
+  background: var(--error-bg);
+  border: 1px solid var(--error-border);
+  color: var(--error-text);
+}
+
+/* Simple CSS spinner */
+.spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   Uploader
+   ========================================================================== */
+.uploader {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.drop-zone {
+  border: 1px dashed var(--border);
+  background: var(--panel);
+  border-radius: var(--radius);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  overflow: hidden;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.drop-zone.drag-over {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+/* Empty / hint state */
+.drop-hint-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 36px 24px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.drop-icon {
+  color: var(--muted);
+  opacity: 0.7;
+}
+
+.drop-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.link {
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-dim);
+}
+
+.link:hover {
+  color: var(--accent-hover);
+  border-bottom-color: var(--accent-hover);
+}
+
+/* Preview state */
+.preview-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.preview {
+  display: block;
+  width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  background: #000;
+}
+
+.preview-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 12px;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--panel-inset);
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.preview-filename {
+  font-family: "IBM Plex Mono", monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60%;
+}
+
+/* Uploader action row */
+.uploader-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.uploader-file-error {
+  font-size: 0.83rem;
+  color: var(--error-text);
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+button {
+  font: inherit;
+  font-size: 0.88rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+
+button.btn-secondary {
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+}
+
+button.btn-secondary:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent-hover);
+}
+
+button.btn-primary {
+  padding: 7px 18px;
+  border: 1px solid var(--accent-dim);
+  background: var(--accent-dim);
+  color: var(--accent-hover);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+button.btn-primary:hover:not(:disabled) {
+  background: #214b91;
+  border-color: var(--accent);
+  color: #fff;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+/* ==========================================================================
+   Result layout: image + detections side-by-side above 860px
+   ========================================================================== */
+.result-section {
+  margin-top: 28px;
+}
+
+.result-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+@media (min-width: 860px) {
+  .result-layout {
+    grid-template-columns: 1fr 380px;
+  }
+}
+
+/* ==========================================================================
+   Annotated image panel
+   ========================================================================== */
+.result-image-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.result-image-panel figure {
+  margin: 0;
+}
+
+.result-image-panel img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #000;
+}
+
+.result-image-panel figcaption {
+  padding: 7px 12px;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--panel-inset);
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-family: "IBM Plex Mono", monospace;
+}
+
+/* ==========================================================================
+   Detection list panel
+   ========================================================================== */
+.detections-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+}
+
+.detections-panel-header {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.detections-panel-header h2 {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-strong);
+  letter-spacing: 0.02em;
+}
+
+.detection-count {
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.detections {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.detection {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.detection:last-child {
+  border-bottom: none;
+}
+
+.detection-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* Class chips */
+.class-chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.class-chip.chip-submarine_pipeline {
+  background: var(--chip-pipeline);
+  color: var(--chip-pipeline-fg);
+}
+.class-chip.chip-shipwreck {
+  background: var(--chip-shipwreck);
+  color: var(--chip-shipwreck-fg);
+}
+.class-chip.chip-ghost_net {
+  background: var(--chip-ghost);
+  color: var(--chip-ghost-fg);
+}
+.class-chip.chip-mine_cylinder {
+  background: var(--chip-mine);
+  color: var(--chip-mine-fg);
+}
+.class-chip.chip-seabed_surface {
+  background: var(--chip-seabed);
+  color: var(--chip-seabed-fg);
+}
+.class-chip.chip-engineering_platform {
+  background: var(--chip-platform);
+  color: var(--chip-platform-fg);
+}
+.class-chip.chip-airplane {
+  background: var(--chip-airplane);
+  color: var(--chip-airplane-fg);
+}
+.class-chip.chip-underwater_residual_mound {
+  background: var(--chip-mound);
+  color: var(--chip-mound-fg);
+}
+.class-chip.chip-default {
+  background: var(--chip-default);
+  color: var(--chip-default-fg);
+}
+
+/* Confidence bar */
+.conf-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.conf-label {
+  flex-shrink: 0;
+  width: 44px;
+  text-align: right;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.conf-bar-track {
+  flex: 1;
+  height: 5px;
+  background: var(--conf-bar-bg);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.conf-bar-fill {
+  height: 100%;
+  background: var(--conf-bar-fill);
+  border-radius: 2px;
+}
+
+.detection-bbox {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+/* No detections */
+.no-detections {
+  padding: 18px 14px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* ==========================================================================
+   Location panel
+   ========================================================================== */
+.location-panel {
+  margin-top: 14px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.location-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  padding-top: 1px;
+}
+
+.location-unavailable {
+  font-size: 0.84rem;
+  color: var(--muted);
+}
+
+.location-dl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 24px;
+  margin: 0;
+}
+
+.location-dl > div {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.location-dl dt {
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.location-dl dd {
+  margin: 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.84rem;
+  color: var(--text);
+}
+
+.badge-synthetic {
+  display: inline-block;
+  font-size: 0.72rem;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-border);
+  color: var(--warn-text);
+  font-weight: 500;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.app-footer {
+  margin-top: 40px;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 12px;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 640px) {
+  .app {
+    padding: 16px 12px 32px;
+  }
+
+  .app-header {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
