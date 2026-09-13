@@ -66,7 +66,7 @@ flowchart TD
     F["<b>GEOREFERENCING + POST-PROCESSING</b><br/><i>[designed — see note below]</i>"] --> G
     G["<b>DASHBOARD</b><br/><i>[implemented — prototype]</i>"] --> H
     H["<b>HUMAN-IN-THE-LOOP FEEDBACK / ACTIVE LEARNING</b><br/><i>[designed]</i>"]
-
+```
 ## Dataset
 
 | Dataset | Used for | Images | Source |
