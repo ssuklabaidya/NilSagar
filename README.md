@@ -145,14 +145,16 @@ Natural organic matter on the seabed — driftwood, dead fish, decaying kelp —
 
 A working prototype dashboard is included in this repo (`nilsagar.html`) — interactive map, class filters, confidence threshold slider, click-to-inspect detections.
 
-## Project Note
-### Local Execution & Testing
-Currently, backend model inference and detection run locally. To perform detection or test an image:
-1. Run the backend script/server on your local machine.
-2. Upload/input your image through the local pipeline to view the detection outputs.
+## Setup & Testing Instructions
+
+### Local Model Execution & Testing
+Currently, model inference and full end-to-end testing are run locally across the backend and frontend components. 
+
+- For complete, step-by-step instructions on how to set up and locally host the backend and frontend to see how the model works, please refer to the `README.md` file located inside the respective **`backend/`** directories (or branches).
+
 ### Frontend Dashboard Preview (`nilsagar.html`)
-- `nilsagar.html` serves as a standalone UI layout/prototype showing how the final web dashboard will look visually.
-- **Note:** The current backend/inference pipeline is not yet integrated with this HTML interface. It is included for UI design reference.
+- `nilsagar.html` serves as a standalone UI design preview demonstrating how the final web dashboard will look visually.
+- **Note:** The current backend/inference pipeline is not yet connected to this standalone HTML page. It is included for UI reference only.
 - 
 ## 👥 Team
 
