@@ -17,7 +17,7 @@ India does not currently have a public, labeled side-scan sonar debris dataset. 
 flowchart TD
     A["Raw SSS Acoustic Pings<br/><i>(AUV / Towfish)</i>"] --> B
 
-    subgraph PREPROCESSING["<b>PREPROCESSING</b>"]
+    subgraph PREPROCESSING ["PREPROCESSING"]
         direction TB
         B1["Slant-range correction + water-column removal<br/><i>[designed — needs raw pings]</i>"]
         B2["Time-Varying Gain (TVG) normalization<br/><i>[designed — needs raw pings]</i>"]
@@ -29,7 +29,7 @@ flowchart TD
 
     B5 --> C
 
-    subgraph TILING["<b>TILING + AUGMENTATION</b> <i>[implemented]</i>"]
+    subgraph TILING ["TILING + AUGMENTATION [implemented]"]
         C1["512×512 patch tiling"]
         C2["Rotation, flip, contrast jitter augmentation"]
         C1 --> C2
@@ -38,38 +38,37 @@ flowchart TD
     C2 --> D1
     C2 --> D2
 
-    subgraph D1["<b>3A. SUPERVISED BRANCH</b> <i>[implemented]</i>"]
+    subgraph D1 ["3A. SUPERVISED BRANCH [implemented]"]
         D1a["YOLOv8 classifier, 5 classes<br/>trained on KLSG + Marine-PULSE<br/><b>→ 96.4% test accuracy, MCC 0.948</b><br/><i>(5-fold cross-validation)</i>"]
     end
 
-    subgraph D2["<b>3B. ANOMALY BRANCH</b> <i>[designed]</i>"]
+    subgraph D2 ["3B. ANOMALY BRANCH [designed]"]
         D2a["Convolutional autoencoder<br/>trained ONLY on normal seabed<br/><i>(Seafloor Sediments dataset)</i><br/><b>→ Flags high reconstruction-error patches</b>"]
     end
 
     D1a --> E
     D2a --> E
 
-    subgraph FUSION["<b>FUSION & SCORING</b> <i>[designed]</i>"]
+    subgraph FUSION ["FUSION & SCORING [designed]"]
         E1["• High detector confidence → labeled debris class"]
         E2["• High anomaly score, low confidence → 'unidentified anomaly, flag for expert review'"]
-        E3["• Closes the gap between known debris classes and genuinely novel targets"]
+        E3["• Closes gap between known debris and novel targets"]
     end
 
     FUSION --> F["<b>GEOREFERENCING + POST-PROCESSING</b><br/><i>[designed — see note below]</i>"]
     F --> G["<b>DASHBOARD</b><br/><i>[implemented — prototype]</i>"]
     G --> H["<b>HUMAN-IN-THE-LOOP FEEDBACK / ACTIVE LEARNING</b><br/><i>[designed]</i>"]
 
-    %% Styling
-    style A fill:#1f2937,stroke:#374151,color:#fff
-    style PREPROCESSING fill:#111827,stroke:#3b82f6,color:#fff
-    style TILING fill:#111827,stroke:#10b981,color:#fff
-    style D1 fill:#064e3b,stroke:#10b981,color:#fff
-    style D2 fill:#701a75,stroke:#f43f5e,color:#fff
-    style FUSION fill:#1e1b4b,stroke:#6366f1,color:#fff
-    style F fill:#1f2937,stroke:#374151,color:#fff
-    style G fill:#1f2937,stroke:#10b981,color:#fff
-    style H fill:#1f2937,stroke:#374151,color:#fffd)
-
+    %% Custom Node Styling
+    style A fill:#1f2937,stroke:#374151,color:#ffffff
+    style PREPROCESSING fill:#111827,stroke:#3b82f6,color:#ffffff
+    style TILING fill:#111827,stroke:#10b981,color:#ffffff
+    style D1 fill:#064e3b,stroke:#10b981,color:#ffffff
+    style D2 fill:#701a75,stroke:#f43f5e,color:#ffffff
+    style FUSION fill:#1e1b4b,stroke:#6366f1,color:#ffffff
+    style F fill:#1f2937,stroke:#374151,color:#ffffff
+    style G fill:#1f2937,stroke:#10b981,color:#ffffff
+    style H fill:#1f2937,stroke:#374151,color:#ffffff
 ## Dataset
 
 | Dataset | Used for | Images | Source |
