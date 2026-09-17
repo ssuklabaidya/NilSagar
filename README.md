@@ -141,10 +141,6 @@ A real deployment has to pick a frequency (or use a dual-frequency system) based
 
 Natural organic matter on the seabed — driftwood, dead fish, decaying kelp — can register as an "anomaly" to our anomaly branch just as readily as plastic or metal debris, since both simply deviate from the model's learned "normal seabed" texture. Flagging biodegradable material as debris isn't just a false positive — it risks sending real cleanup resources after something that would have broken down naturally, and eroding trust in the system's flags. The intended mitigation, not yet implemented, is a **persistence check**: re-surveying a flagged anomaly over repeat passes. Biodegradable material visibly degrades or disappears over weeks; plastic, metal, and rope do not. This is a planned filter, explicitly called out here rather than silently assumed away.
 
-## 🖥️ Dashboard
-
-A working prototype dashboard is included in this repo (`nilsagar.html`) — interactive map, class filters, confidence threshold slider, click-to-inspect detections.
-
 ## Setup & Testing Instructions
 
 ### Local Model Execution & Testing
@@ -152,10 +148,6 @@ Currently, model inference and full end-to-end testing are run locally across th
 
 - For complete, step-by-step instructions on how to set up and locally host the backend and frontend to see how the model works, please refer to the `README.md` file located inside the respective **`backend/`** directories (or branches).
 
-### Frontend Dashboard Preview (`nilsagar.html`)
-- `nilsagar.html` serves as a standalone UI design preview demonstrating how the final web dashboard will look visually.
-- **Note:** The current backend/inference pipeline is not yet connected to this standalone HTML page. It is included for UI reference only.
-- 
 ## 👥 Team
 
 | | |
