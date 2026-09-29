@@ -47,7 +47,7 @@ flowchart TD
 
     B5 --> C1
 
-    subgraph TILING["✅ TILING + AUGMENTATION [implemented]"]
+    subgraph TILING["✅ TILING + AUGMENTATION"]
         direction TB
         C1["512×512 patch tiling"]
         C2["Rotation, flip, contrast jitter augmentation"]
